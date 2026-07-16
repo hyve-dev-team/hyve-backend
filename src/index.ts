@@ -14,7 +14,7 @@ app.use(pinoHttp({ logger }));
 
 app.get("/", (req: Request, res: Response) => {
   logger.info("Root route accessed");
-  res.send("Running successfully");
+  res.send(`${process.env.APP_NAME} is running successfully`);
 });
 app.use("/api/v1/auth", authRoutes);
 

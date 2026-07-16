@@ -1,0 +1,14 @@
+node_modules
+.git
+.gitignore
+.env
+.env.*
+.idea
+.DS_Store
+dist
+out
+coverage
+*.log
+Dockerfile
+.dockerignore
+src/generated/prisma
