@@ -4,8 +4,22 @@ import logger from "./utils/logger";
 import pinoHttp from "pino-http";
 import { errorHandler } from "./middleware/errorHandler";
 import authRoutes from "./routes/authRoutes";
+import { execSync } from "child_process";
 
 dotenv.config();
+
+// Run migrations on startup
+if (process.env.NODE_ENV === "production" || process.env.RUN_MIGRATIONS === "true") {
+  try {
+    logger.info("Running database migrations...");
+    const stdout = execSync("bun x prisma migrate deploy");
+    logger.info(`Database migrations completed successfully:\n${stdout.toString()}`);
+  } catch (error: any) {
+    logger.error(`Database migration failed: ${error.message}`);
+    if (error.stdout) logger.error(`stdout: ${error.stdout.toString()}`);
+    if (error.stderr) logger.error(`stderr: ${error.stderr.toString()}`);
+  }
+}
 
 const app = express();
 
